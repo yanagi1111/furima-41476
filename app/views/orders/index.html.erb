@@ -33,6 +33,10 @@
     <%# /支払額の表示 %>
 
     <%= form_with model: @order_form, url: item_orders_path(@item.id), data: {turbo_method: :post}, id: 'charge-form', class: 'transaction-form-wrap',local: true do |f| %>
+      <% if @order_form.errors.any? %>
+        <%= render 'shared/error_messages', model: f.object %>
+      <% end %>
+    
     <%# カード情報の入力 %>
     <div class='credit-card-form'>
       <h1 class='info-input-haedline'>
