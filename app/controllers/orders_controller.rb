@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user!
+  before_action :contributor_confirmation, only: [:index]
   def index
     gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     @order_form = OrderForm.new
@@ -32,5 +34,10 @@ class OrdersController < ApplicationController
       card: order_form_params[:token],
       currency: 'jpy'
     )
+  end
+
+  def contributor_confirmation
+    @item = Item.find(params[:item_id])
+    redirect_to root_path if (@item.order.present? && (current_user != @item.user)) || (current_user == @item.user)
   end
 end
