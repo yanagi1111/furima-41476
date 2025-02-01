@@ -6,12 +6,10 @@ class OrderForm
 
   with_options presence: true do
     validates :token
-    validates :post_code
+    validates :post_code, format: { with: /\A\d{3}-\d{4}\z/, message: '半角数字とハイフンを使用してください' }
     validates :municipality
     validates :house_number
-    validates :phone_number
-    validates :post_code, format: { with: /\A\d{3}-\d{4}\z/, message: '半角数字とハイフンを使用してください' }
-    validates :phone_number, format: { with: /\A\d{10,11}\z/, message: '半角数字のみを使用してください' }
+    validates :phone_number, format: { with: /\A\d{10,11}\z/, message: '10桁もしくは11桁の半角数字のみを使用してください' }
     validates :user_id
     validates :item_id
   end

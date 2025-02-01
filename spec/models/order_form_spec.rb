@@ -53,10 +53,21 @@ RSpec.describe OrderForm, type: :model do
         @order_form.valid?
         expect(@order_form.errors.full_messages).to include("Phone number can't be blank")
       end
-      it 'phone_numberが10桁以上11桁以内の半角数値のみでないと登録できない' do
+      it 'phone_numberが9桁以下では購入できない' do
+        @order_form.phone_number = '090123456'
+        @order_form.valid?
+        expect(@order_form.errors.full_messages).to include('Phone number 10桁もしくは11桁の半角数字のみを使用してください')
+      end
+      it 'phone_numberが12桁以上では購入できない' do
+        @order_form.phone_number = '090123456789'
+        @order_form.valid?
+        expect(@order_form.errors.full_messages).to include('Phone number 10桁もしくは11桁の半角数字のみを使用してください')
+      end
+      it 'phone_numberに半角数字以外が含まれている場合は購入できない' do
         @order_form.phone_number = '090-1234-5678'
         @order_form.valid?
-        expect(@order_form.errors.full_messages).to include('Phone number 半角数字のみを使用してください')
+        expect(@order_form.errors.full_messages).to include('Phone number 10桁もしくは11桁の半角数字のみを使用してください')
+      end
       end
       it 'user_idが紐づいていないと登録できない' do
         @order_form.user_id = nil

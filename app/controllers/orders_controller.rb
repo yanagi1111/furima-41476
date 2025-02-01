@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :contributor_confirmation, only: [:index]
+  before_action :contributor_confirmation, only: [:index, :create]
   def index
     gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     @order_form = OrderForm.new
@@ -8,7 +8,6 @@ class OrdersController < ApplicationController
 
   def create
     @order_form = OrderForm.new(order_form_params)
-    @item = Item.find(params[:item_id])
     if @order_form.valid?
       pay_item
       @order_form.save
