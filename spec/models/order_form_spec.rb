@@ -68,7 +68,6 @@ RSpec.describe OrderForm, type: :model do
         @order_form.valid?
         expect(@order_form.errors.full_messages).to include('Phone number 10桁もしくは11桁の半角数字のみを使用してください')
       end
-      end
       it 'user_idが紐づいていないと登録できない' do
         @order_form.user_id = nil
         @order_form.valid?
