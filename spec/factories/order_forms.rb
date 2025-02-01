@@ -8,6 +8,5 @@ FactoryBot.define do
     house_number { Faker::Address.street_address }
     building_name { Faker::Company.name }
     phone_number { Faker::Number.leading_zero_number(digits: 11) }
-    item_id { Faker::Number.number(digits: 2) }
   end
 end

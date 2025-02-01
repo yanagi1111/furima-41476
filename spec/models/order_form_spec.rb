@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe OrderForm, type: :model do
   before do
-    @order_form = FactoryBot.build(:order_form)
+    user = FactoryBot.create(:user)
+    item = FactoryBot.create(:item)
+    @order_form = FactoryBot.build(:order_form, user_id: user.id, item_id: item.id)
   end
 
   describe '商品購入' do
@@ -55,6 +57,16 @@ RSpec.describe OrderForm, type: :model do
         @order_form.phone_number = '090-1234-5678'
         @order_form.valid?
         expect(@order_form.errors.full_messages).to include('Phone number 半角数字のみを使用してください')
+      end
+      it 'user_idが紐づいていないと登録できない' do
+        @order_form.user_id = nil
+        @order_form.valid?
+        expect(@order_form.errors.full_messages).to include("User can't be blank")
+      end
+      it 'item_idが紐づいていないと登録できない' do
+        @order_form.item_id = nil
+        @order_form.valid?
+        expect(@order_form.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
